@@ -1,0 +1,92 @@
+{% extends "template.html" %}
+
+{% block content %}
+    <div class="col-6">
+       <div class="registrationMsg">
+           <h1> Welcome! Please Register</h1>
+       </div>
+    </div>
+    <div class="col-6">
+        <div class="form">
+            <form method="POST" action="/register">
+
+                <div title="2 to 30 Characters Long">
+                    {{ form.name.label }}:
+                    {% if form.name.errors %}
+                        {{ form.name(class="formError") }}
+                        <div class="errorMsg"> {{ form.name.errors[0] }} </div>
+                    {%  elif not form.name.errors %}
+                        {{ form.name() }}
+                    {% endif %}
+                </div>
+
+                <div title="2 to 30 Characters long">
+                    {{ form.surname.label }}:
+                    {% if form.surname.errors %}
+                        {{ form.surname(class="formError") }}
+                        <div class="errorMsg"> {{ form.surname.errors[0] }} </div>
+                    {%  elif not form.surname.errors %}
+                        {{ form.surname() }}
+                    {% endif %}
+                </div>
+
+                <div title="Enter Your Email">
+                    {{ form.email.label }}:
+                    {% if form.email.errors %}
+                        {{ form.email(class="formError") }}
+                        <div class="errorMsg"> {{ form.email.errors[0] }} </div>
+                    {% elif mailError %}
+                        {{ form.email(class="formError") }}
+                        <div class="errorMsg"> {{ mailError }} </div>
+                    {% elif not form.email.errors and not mailError %}
+                        {{ form.email() }}
+                    {% endif %}
+                </div>
+
+                <div title="Enter Your Username">
+                    {{ form.username.label }}:
+                    {% if form.username.errors %}
+                        {{ form.username(class="formError") }}
+                        <div class="errorMsg"> {{ form.username.errors[0] }} </div>
+                    {%  elif usernameError %}
+                        {{ form.username(class="formError") }}
+                        <div class="errorMsg"> {{ usernameError }} </div>
+                    {%  elif not form.username.errors and not usernameError %}
+                        {{ form.username() }}
+                    {% endif %}
+                </div>
+
+                <div title="Between 8 - 20 Charachters [Alphanumerical and Symbols]">
+                    {{ form.passwd.label }}:
+                    {% if form.passwd.errors %}
+                        {{ form.passwd(class="formError") }}
+                        <div class="errorMsg"> {{ form.passwd.errors[0] }} </div>
+                    {%  elif not form.passwd.errors %}
+                        {{ form.passwd() }}
+                    {% endif %}
+                </div>
+
+                <div title="Retype Your Password">
+                    {{ form.confirm.label }}:
+                    {% if form.confirm.errors %}
+                        {{ form.confirm(class="formError") }}
+                        <div class="errorMsg"> {{ form.confirm.errors[0] }} </div>
+                    {%  elif not form.confirm.errors %}
+                        {{ form.confirm() }}
+                    {% endif %}
+                </div>
+
+                <div>
+                    <p>
+                    {{ form.accept_rules() }} {{ form.accept_rules.label(id="dialog", title="Terms & Conditions") }}
+                    </p>
+                </div>
+
+                <div>
+                    {{ form.submit() }}
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock content %}

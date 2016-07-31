@@ -1,0 +1,110 @@
+{% extends "template.html" %}
+
+{% block content %}
+    <div class="col-12">
+        <div>
+            {% if username %}
+                <h1>  Welcome  {{ username }}, </h1>
+                    <div class="postContainer">
+                        {% for p in post %}
+                            {% set outerLoop = loop %}
+                            <hr>
+                            <h1 class="postTitle">
+                                <a class="postTitle" href="/post/{{ p.key().id() }}"> {{ p.title }} </a>
+                            </h1>
+                            <div class="writtenBy"> Written by:
+                                {% for x in author %}
+                                    {% if x.key().id()==p.author %}
+                                        {{ x.name }} {{ x.surname }}
+                                    {% endif %}
+                                {% endfor %}
+                                On: {{ p.dateTimeCreated.strftime('%H:%M %d/%m/%Y') }}
+                            </div>
+                            <div>{{ p.content | safe }}</div>
+                            {% for x in author %}
+                                    {% if x.key().id()==p.author %}
+                                        {% if x.username == username %}
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <div class="editButton">
+                                                        <a class="editButton" href="/edit/{{ p.key().id() }}"> Edit </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-1 ">
+                                                    <div class="deleteButton">
+                                                        <a class="deleteButton" href="/delete/{{ p.key().id() }}"> Delete </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-1">
+                                                    <div class="commentButton">
+                                                        <a id="commentButton-{{ outerLoop.index }}" class="commentButton" href="#"> Comment </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div id="comment-form-{{ outerLoop.index }}">
+                                                        <form id="comments-area-{{ outerLoop.index }}" method="POST" action="/comment/{{ p.key().id() }}">
+                                                            {{ form.comment(class='commentBox', placeholder="your comment..") }}
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if x.username != username %}
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <div class="likeButton">
+                                                        {% for l in likedPosts if l.userID==userID and l.postID==p.key().id() %}
+                                                                <a class="likeButton" href="/unlike/{{ p.key().id() }}"> Unlike </a>
+                                                        {% else %}
+                                                            <a class="likeButton" href="/like/{{ p.key().id() }}"> Like </a>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-1">
+                                                    <div class="commentButton">
+                                                        <a id="commentButton-{{ outerLoop.index }}" class="commentButton" href="#"> Comment </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div id="comment-form-{{ outerLoop.index }}">
+                                                        <form id="comments-area-{{ outerLoop.index }}" method="POST" action="/comment/{{ p.key().id() }}">
+                                                            {{ form.comment(class='commentBox', placeholder="your comment..") }}
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                            {% endfor %}
+                            <hr>
+                        {% endfor %}
+                    </div>
+            {% elif not username %}
+                <h1> Welcome Stranger,</h1>
+                <div> Would you like to  <a href="/register"> Sign Up!?</a> Check Out Some of the latest Posts :-)</div>
+                <div class="postContainer">
+                    {% for p in post %}
+                        <hr>
+                        <h1 class="postTitle">
+                            <a class="postTitle" href="/post/{{ p.key().id() }}"> {{ p.title }} </a>
+                        </h1>
+                         <div class="writtenBy"> Written by:
+                            {% for x in author %}
+                                {% if x.key().id()==p.author %}
+                                    {{ x.name }} {{ x.surname }}
+                                {% endif %}
+                            {% endfor %}
+                            On: {{ p.dateTimeCreated.strftime('%H:%M %d/%m/%Y') }}
+                         </div>
+                        <div>{{ p.content | safe }}</div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

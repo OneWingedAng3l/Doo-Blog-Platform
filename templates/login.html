@@ -1,0 +1,21 @@
+{% extends "template.html" %}
+
+{% block content %}
+    <div class="col-6">
+       <div class="registrationMsg">
+           <h1> Welcome Back :-)</h1>
+       </div>
+    </div>
+    <div class="col-4">
+        <div class="form">
+            {%  if error or form.username.errors[0] or form.passwd.errors[0] %}
+                    <div class="errorMsg"> {{ error }}</div>
+            {%  endif %}
+            <form method="POST" action="/login">
+                <div>{{ form.username.label }}: {{ form.username() }}</div>
+                <div>{{ form.passwd.label }}: {{ form.passwd() }}</div>
+                <div>{{ form.submit() }}</div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

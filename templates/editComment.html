@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+
+
+{% block content %}
+    <div class="form">
+        <form method="POST" action="/editcomment/{{ comment.key().id() }}">
+            <div>
+                <h2>Edit Comment:</h2>
+                <p>
+                    {{ form.comment(class="commentBox") }}
+                </p>
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

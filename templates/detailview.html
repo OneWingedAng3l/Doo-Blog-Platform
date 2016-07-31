@@ -1,0 +1,131 @@
+{% extends "template.html" %}
+
+{% block content %}
+    <div class="col-12">
+        <div class="postContainer">
+            <hr>
+            <h1 class="postTitle">{{ post.title }}</h1>
+            <div class="writtenBy"> Written by:
+                {% for x in author %}
+                    {% if x.key().id()==post.author %}
+                        {{ x.name }} {{ x.surname }}
+                    {% endif %}
+                {% endfor %}
+                On: {{ post.dateTimeCreated.strftime('%H:%M %d/%m/%Y') }}
+            </div>
+            <div>{{ post.content | safe }}</div>
+            {% for x in author %}
+                    {% if x.key().id()==post.author %}
+                        {% if x.username == username %}
+                            <div class="row">
+                                <div class="col-1">
+                                    <div class="editButton">
+                                        <a class="editButton" href="/edit/{{ post.key().id() }}"> Edit </a>
+                                    </div>
+                                </div>
+                                <div class="col-1 ">
+                                    <div class="deleteButton">
+                                        <a class="deleteButton" href="/delete/{{ post.key().id() }}"> Delete </a>
+                                    </div>
+                                </div>
+                                 <div class="col-1">
+                                    <div class="commentButton">
+                                        <a id="commentButton-{{ loop.index }}" class="commentButton" href="#"> Comment </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="comment-form-{{ loop.index }}">
+                                        <form id="comments-area" method="POST" action="/comment/{{ post.key().id() }}">
+                                                {{ form.comment(class='commentBox', placeholder="your comment..") }}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <h2> Comments</h2>
+                            {% for c in comments %}
+                                <div class="comment">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            {% for cAuthor in author if cAuthor.key().id() == c.authorID %}
+                                                <div class="writtenBy"> {{ cAuthor.name }} {{ cAuthor.surname }} Wrote: </div>
+                                            {% endfor %}
+                                            <div class="writtenBy">  {{ c.dateTimeCreated.strftime('%H:%M %d/%m/%Y') }} </div>
+                                            <p>
+                                            <div>  {{ c.content }} </div>
+                                        </div>
+                                         <div class="col-2">
+                                             {%  if c.authorID==userID %}
+                                                <div>
+                                                    <a href="/editcomment/{{ c.key().id() }}"> Edit </a>
+                                                    |
+                                                    <a href="/delcomment/{{ c.key().id() }}"> Delete </a>
+                                                </div>
+                                             {% endif %}
+                                         </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                         <!-- Basicallly leave a blank space -->
+                            {% endfor %}
+                        {% endif %}
+                        {% if x.username != username %}
+                            <div class="row">
+                                <div class="col-1">
+                                    <div class="likeButton">
+                                        {% for l in likedPosts if l.userID==userID and l.postID==post.key().id() %}
+                                                <a class="likeButton" href="/unlike/{{ post.key().id() }}"> Unlike </a>
+                                        {% else %}
+                                            <a class="likeButton" href="/like/{{ post.key().id() }}"> Like </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <div class="commentButton">
+                                        <a id="commentButton-{{ loop.index }}" class="commentButton" href="#"> Comment </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="comment-form-{{ loop.index }}">
+                                        <form id="comments-area" method="POST" action="/comment/{{ post.key().id() }}">
+                                                {{ form.comment(class='commentBox', placeholder="your comment..") }}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <h2> Comments</h2>
+                            {% for c in comments %}
+                                <div class="comment">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            {% for cAuthor in author if cAuthor.key().id() == c.authorID %}
+                                                <div class="writtenBy"> {{ cAuthor.name }} {{ cAuthor.surname }} Wrote: </div>
+                                            {% endfor %}
+                                            <div class="writtenBy">  {{ c.dateTimeCreated.strftime('%H:%M %d/%m/%Y') }} </div>
+                                            <p>
+                                            <div>  {{ c.content }} </div>
+                                        </div>
+                                         <div class="col-2">
+                                                {%  if c.authorID==userID %}
+                                                    <div>
+                                                        <a href="/editcomment/{{ c.key().id() }}"> Edit </a>
+                                                        |
+                                                        <a href="/delcomment/{{ c.key().id() }}"> Delete </a>
+                                                    </div>
+                                                {% endif %}
+                                         </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                         <!-- Basicallly leave a blank space -->
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            <hr>
+        </div>
+    </div>
+{% endblock content %}

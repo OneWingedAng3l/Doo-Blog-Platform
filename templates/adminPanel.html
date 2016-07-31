@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+
+{% block content %}
+        <div>
+            Latest Posts
+            <hr>
+            {% for user in users %}
+                <div>Name: {{ user.name }} </div>
+                <div>Username: {{ user.username }} </div>
+                <div>Email: {{ user.email }} </div>
+                <hr>
+            {% endfor %}
+            {% for email in emails %}
+                <div>Email: {{ email.email }} </div>
+                <hr>
+            {% endfor %}
+        </div>
+{% endblock content %}

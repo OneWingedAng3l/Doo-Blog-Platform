@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <script src="/static/js/jquery-3.1.0.min.js"> </script>
+    <script src="/static/js/jquery-ui/jquery-ui.min.js"> </script>
+    <script src="/static/js/main.js"> </script>
+    <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+
+    <meta name="viewport" content="width=320, initial-scale=1.0">
+
+	<link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/js/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+
+	<title>Doo!</title>
+</head>
+<body>
+	<div class="grid">
+        <!--  The 1st Row that holds the Logo and the Ninja info. Also draws the line under them -->
+		<header class="row drawline">
+            <div class="col-12">
+                    <h1 class="devname"> Doo! Blog Platform </h1>
+                    <h2 class="devtitle"> Welcome </h2>
+            </div>
+        </header>
+        <!--  The 2nd Row that holds the main image or slider. -->
+		<nav class="row drawline">
+
+            {% if not username %}
+                <div class="col-2">
+                    <div id="signup" class="mbutton">
+                            <a class="mbutton" href="/register">  Sign Up  </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="col-2">
+                <div id="signin" class="mbutton">
+                    {% if username %}
+                        <a class="mbutton" href="/logout">  Sign Out  </a>
+                    {% elif not username %}
+                        <a class="mbutton" href="/login">  Sign In  </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div id="popular" class="mbutton">
+                    <a class="mbutton" href="/popular">  Popular Posts </a>
+                </div>
+            </div>
+
+            {% if username %}
+                <div class="col-2">
+                    <div id="latest" class="mbutton">
+                        <a class="mbutton" href="/new">  New Post </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if admin %}
+                <div class="col-2">
+                    <div id="admin" class="mbutton">
+                        <a class="mbutton" href="/admin">  Admin  </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="col-6">
+                    <form method="POST" action="/search">
+                        <div id="search">
+                            <input class="msearch" type="text" name="search" placeholder="Search..">
+                            <input type="submit" style="display: none;" >  <!-- todo: Remove inline style -->
+                        </div>
+                    </form>
+            </div>
+		</nav>
+		<section class="row drawline">
+            {% block content %}
+            {% endblock %}
+		</section>
+    <footer class="footer row drawline">
+            <div class="col-6">Doo! Blog Platform  &copy; 2016</div>
+            <div class="col-6 love"> Created with &hearts; by Angelos Roussakis</div>
+    </footer>
+	</div>
+</body>

@@ -1,0 +1,51 @@
+{% extends "template.html" %}
+
+{% block content %}
+    <div class="col-4">
+        <div>
+            <h1> Your Latest Posts:</h1>
+        </div>
+    </div>
+    <div class="col-8">
+        <div>
+            <h1> Hello User! What is on your mind?!?</h1>
+        </div>
+        <div class="form">
+            <form method="POST" action="/new">
+                <div>
+                    {{ form.title.label }}:
+                    {% if form.title.errors %}
+                        {{ form.title(class="formError") }}
+                        <div class="errorMsg"> {{ form.title.errors[0] }} </div>
+                    {%  elif not form.title.errors %}
+                        {{ form.title() }}
+                    {% endif %}
+                </div>
+
+                <div>
+                    <p>
+                    {{ form.content.label }}:
+                    {% if form.content.errors %}
+                        {{ form.content(class="formError") }}
+                        <div class="errorMsg"> {{ form.content.errors[0] }} </div>
+                    {%  elif not form.content.errors %}
+                        {{ form.content() }}
+                    {% endif %}
+                    </p>
+                </div>
+
+                <div>
+                    <p>
+                        {{ form.accessLevel.label }}:
+                        {{ form.accessLevel() }}
+                    </p>
+                </div>
+
+                <div>
+                    {{ form.submit() }}
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock content %}
